@@ -1,3 +1,4 @@
+const { employees } = require('./data');
 const data = require('./data');
 
 function localizarEspecie(ids) {
@@ -30,7 +31,17 @@ function getAnimalsOlderThan(animal, age) {
 }
 
 function getEmployeeByName(employeeName) {
-  // seu código aqui
+  if (employeeName === undefined) {
+    return {};
+  }
+  const localizarFuncionario = data.employees.find((employe) => {
+    let employee;
+    if (employe.firstName === employeeName || employe.lastName === employeeName) {
+      employee = employees;
+    }
+    return employee;
+  });
+  return localizarFuncionario;
 }
 
 function createEmployee(personalInfo, associatedWith) {
