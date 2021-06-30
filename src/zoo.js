@@ -44,8 +44,15 @@ function getEmployeeByName(employeeName) {
   return localizarFuncionario;
 }
 
-function createEmployee(personalInfo, associatedWith) {
+function createEmployee({ id, firstName, lastName }, { managers, responsibleFor }) {
   // seu código aqui
+  return {
+    firstName,
+    id,
+    lastName,
+    managers,
+    responsibleFor,
+  };
 }
 
 function isManager(id) {
