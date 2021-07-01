@@ -26,8 +26,7 @@ function getSpeciesByIds(...ids) {
 
 function getAnimalsOlderThan(animal, age) {
   const localizarAnimal = data.species.find((especie) => especie.name === animal);
-  const verificarAge = localizarAnimal.residents.every((resident) => resident.age >= age);
-  return verificarAge;
+  return localizarAnimal.residents.every((resident) => resident.age >= age);
 }
 
 function getEmployeeByName(employeeName) {
@@ -56,11 +55,23 @@ function createEmployee({ id, firstName, lastName }, { managers, responsibleFor 
 }
 
 function isManager(id) {
-  // seu código aqui
+  const localizarId = data.employees.find((employe) => employe.id === id);
+  return localizarId.managers.every((ele) => ele === '9e7d4524-363c-416a-8759-8aa7e50c0992');
 }
 
+
+console.log(isManager('0e7b460e-acf4-4e17-bcb3-ee472265db83'));
+
+
 function addEmployee(id, firstName, lastName, managers, responsibleFor) {
-  // seu código aqui
+  const objNovo = {
+    id,
+    firstName,
+    lastName,
+    managers,
+    responsibleFor,
+  };
+  data[employees] = objNovo;
 }
 
 function countAnimals(species) {
