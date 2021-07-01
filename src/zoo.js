@@ -59,11 +59,7 @@ function isManager(id) {
   return localizarId.managers.every((ele) => ele === '9e7d4524-363c-416a-8759-8aa7e50c0992');
 }
 
-
-console.log(isManager('0e7b460e-acf4-4e17-bcb3-ee472265db83'));
-
-
-function addEmployee(id, firstName, lastName, managers, responsibleFor) {
+function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []) {
   const objNovo = {
     id,
     firstName,
@@ -71,7 +67,8 @@ function addEmployee(id, firstName, lastName, managers, responsibleFor) {
     managers,
     responsibleFor,
   };
-  data[employees] = objNovo;
+  console.log(objNovo);
+  data.employees.push(objNovo);
 }
 
 function countAnimals(species) {
