@@ -83,8 +83,26 @@ function countAnimals(species1) {
   return contador;
 }
 
+function calcularEntradas(entrada) {
+  let soma = 0;
+  Object.keys(entrada).forEach((elemento) => {
+    console.log(elemento);
+    if (elemento === 'Adult') {
+      soma += data.prices.Adult * entrada.Adult;
+    } else if (elemento === 'Child') {
+      soma += data.prices.Child * entrada.Child;
+    } else if (elemento === 'Senior') {
+      soma += data.prices.Senior * entrada.Senior;
+    }
+  });
+  return soma;
+}
+
 function calculateEntry(entrants) {
-  // seu código aqui
+  if (entrants === undefined || Object.keys(entrants).length === 0) {
+    return 0;
+  }
+  return calcularEntradas(entrants);
 }
 
 function getAnimalMap(options) {
@@ -96,11 +114,19 @@ function getSchedule(dayName) {
 }
 
 function getOldestFromFirstSpecies(id) {
-  // seu código aqui
+
+}
+
+function roundToTwo(num) {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+  //https://qastack.com.br/programming/11832914/round-to-at-most-2-decimal-places-only-if-necessary
 }
 
 function increasePrices(percentage) {
-  // seu código aqui
+  const porcento = percentage / 100 + 1.00;
+  data.prices.Adult = roundToTwo(data.prices.Adult * porcento);
+  data.prices.Child = roundToTwo(data.prices.Child * porcento);
+  data.prices.Senior = roundToTwo(data.prices.Senior * porcento);
 }
 
 function getEmployeeCoverage(idOrName) {
