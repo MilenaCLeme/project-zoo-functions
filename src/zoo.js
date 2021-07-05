@@ -114,12 +114,23 @@ function getSchedule(dayName) {
 }
 
 function getOldestFromFirstSpecies(id) {
-
+  const idDofuncionario = data.employees.find((empregado) => empregado.id === id);
+  const idDoBicho = idDofuncionario.responsibleFor[0];
+  const localizarId = data.species.filter((valor) => valor.id === idDoBicho);
+  const refazer = localizarId[0].residents.map((valor) => valor.age);
+  const animais = localizarId[0].residents.reduce((acc, bicho) => {
+    if (bicho.age === Math.max(...refazer)) {
+      acc.push(bicho.name);
+      acc.push(bicho.sex);
+      acc.push(bicho.age);
+    }
+    return acc;
+  }, []);
+  return animais;
 }
 
 function roundToTwo(num) {
   return Math.round((num + Number.EPSILON) * 100) / 100;
-  //https://qastack.com.br/programming/11832914/round-to-at-most-2-decimal-places-only-if-necessary
 }
 
 function increasePrices(percentage) {
