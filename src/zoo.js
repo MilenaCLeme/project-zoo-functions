@@ -140,8 +140,35 @@ function increasePrices(percentage) {
   data.prices.Senior = roundToTwo(data.prices.Senior * porcento);
 }
 
+function seforundefined(semParametros) {
+  const funcionarios = data.employees.reduce((acc, funcionario) => {
+    if (semParametros === undefined) {
+      const animal = funcionario.responsibleFor.map((valor) => {
+        const animais = data.species.find((anima) => valor === anima.id);
+        return animais.name;
+      });
+      acc[`${funcionario.firstName} ${funcionario.lastName}`] = animal;
+    }
+    return acc;
+  }, {});
+  return funcionarios;
+}
+
 function getEmployeeCoverage(idOrName) {
-  // seu código aqui
+  if (idOrName === undefined) {
+    return seforundefined(idOrName);
+  }
+  const funcionario = data.employees.reduce((acc, emplo) => {
+    if (idOrName === emplo.id || idOrName === emplo.firstName || idOrName === emplo.lastName) {
+      const bichinho = emplo.responsibleFor.map((valor) => {
+        const animais = data.species.find((anima) => valor === anima.id);
+        return animais.name;
+      });
+      acc[`${emplo.firstName} ${emplo.lastName}`] = bichinho;
+    }
+    return acc;
+  }, {});
+  return funcionario;
 }
 
 module.exports = {
