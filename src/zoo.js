@@ -67,7 +67,6 @@ function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []
     managers,
     responsibleFor,
   };
-  console.log(objNovo);
   data.employees.push(objNovo);
 }
 
@@ -86,7 +85,6 @@ function countAnimals(species1) {
 function calcularEntradas(entrada) {
   let soma = 0;
   Object.keys(entrada).forEach((elemento) => {
-    console.log(elemento);
     if (elemento === 'Adult') {
       soma += data.prices.Adult * entrada.Adult;
     } else if (elemento === 'Child') {
@@ -105,9 +103,106 @@ function calculateEntry(entrants) {
   return calcularEntradas(entrants);
 }
 
-function getAnimalMap(options) {
-  // s
+function animaisCategorizados() {
+  const animaisCategorizadosPorRegião = {
+    NE: [],
+    NW: [],
+    SE: [],
+    SW: [],
+  };
+  data.species.forEach(({name, location}) => {
+    animaisCategorizadosPorRegião[location].push(name);
+  });
+  return animaisCategorizadosPorRegião;
 }
+
+function incluirNome() {
+  const animaisCategorizadosPorRegião = {
+    NE: [],
+    NW: [],
+    SE: [],
+    SW: [],
+  };
+  data.species.forEach(({name, location, residents}) => {
+    animaisCategorizadosPorRegião[location].push({[name]: []});
+    residents.map((e) => {
+      animaisCategorizadosPorRegião[location][animaisCategorizadosPorRegião[location].length - 1][name].push(e.name);
+    });
+  });
+  return animaisCategorizadosPorRegião;
+}
+
+function sortearNomesIncluidos() {
+  const animaisIncluidos = {
+    NE: [],
+    NW: [],
+    SE: [],
+    SW: [],
+  };
+  data.species.forEach(({name, location, residents}) => {
+    animaisIncluidos[location].push({[name]: []});
+    const nomes = residents.map((e) => e.name).sort();
+    animaisIncluidos[location][animaisIncluidos[location].length - 1][name] = [...nomes];
+  });
+  return animaisIncluidos;
+}
+
+function separarPorSexo(sexo) {
+  const animaisIncluidos = {
+    NE: [],
+    NW: [],
+    SE: [],
+    SW: [],
+  };
+  data.species.forEach(({name, location, residents}) => {
+    animaisIncluidos[location].push({[name]: []});
+    const nomes = residents.filter((e) => e.sex === sexo).map((e) => e.name);
+    animaisIncluidos[location][animaisIncluidos[location].length - 1][name] = [...nomes];
+  });
+  return animaisIncluidos;
+}
+
+function sorteouNomesPorSexo(sexo) {
+  const animaisIncluidos = {
+    NE: [],
+    NW: [],
+    SE: [],
+    SW: [],
+  };
+  data.species.forEach(({name, location, residents}) => {
+    animaisIncluidos[location].push({[name]: []});
+    const nomes = residents.filter((e) => e.sex === sexo).map((e) => e.name).sort();
+    animaisIncluidos[location][animaisIncluidos[location].length - 1][name] = [...nomes];
+  });
+  return animaisIncluidos;
+}
+
+function getAnimalMap(options) {
+  if (options === undefined || options.includeNames === undefined) {
+    return animaisCategorizados();
+  }
+  let entrou = '';
+  let sexo = ''
+  let resultado = {};
+  const valor = Object.entries(options).length
+  Object.entries(options).forEach((e) => {
+    if (e[0] === 'includeNames' || valor === 1) {
+      resultado = incluirNome();
+      entrou += 'includeNames';
+    } else if (e[0] === 'sex' || entrou === 'incluideNames' ) {
+      entrou += 'sex';
+      sexo = e[1];
+      resultado = separarPorSexo(e[1]);
+    } else if (e[0] === 'sorted' && entrou === 'includeNames') {
+      resultado = sortearNomesIncluidos();
+    } else if (e[0] === 'sorted' && entrou === 'includeNamessex') {
+      resultado = sorteouNomesPorSexo(sexo);
+    }
+  });
+  return resultado;
+}
+
+console.log(getAnimalMap({includeNames: true, sex: 'female', sorted: true}));
 
 function horaCerta() {
   const datas = data.hours;
